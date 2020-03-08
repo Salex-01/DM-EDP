@@ -1,0 +1,90 @@
+---
+title: "DM"
+output: html_document
+author: "Sacha GUYOT"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+set.seed(1)
+```
+## Replication in computer systems
+
+```{r}
+N = 20
+k = 10  # Number of servers
+d = 5   # Number of replications
+lambda = 5  #arrival rate
+t = 0
+
+#exponential
+mu = 4      #service
+
+#Pareto
+xm = 1
+alpha = 1.5
+
+arrival = cumsum(rexp(N, lambda))
+
+#exponential
+service = replicate(d, rexp(N,mu))
+
+#Pareto
+service = replicate(d, xm/(runif(N)^(1/alpha)))
+
+queue = t(replicate(N, sample(x=(1:k), size=d, replace=FALSE)))
+remaining = matrix(data=NA, nrow=N, ncol=d)
+completion = array(data=NA, dim=N) #time when the task ends
+currJob = array(data=NA, dim=k)
+currRepl = array(data=NA, dim=k)
+LAJ = 0 #Last Available Job
+
+```
+
+```{r}
+while (TRUE) {
+    dtA = ... # time of the next arrival
+    dtC = ... # time of the next completion
+    if(is.na(dtA) & is.na(dtC)) {
+        break;
+    }
+    dt = min(dtA,dtC)
+    if((NextArrival <=N) & (Arrival[NextArrival] == t)){
+        # update Remaining and, possibly, and other state variables
+    }
+    for(k in 1:K){
+        if(!is.na(CurrJob[k])){
+            # update Remaining and, possibly, CurrJob to NA and other state variables
+        }
+    }
+    for(k in 1:K){
+        if(is.na(CurrJob[k])){
+            # assign a job and a copy to server k
+            # update state variables
+        }
+    }
+}
+```
+
+
+```{r}
+
+
+while(T) {
+    dtA = ...  # temps jusqu'à la prochaine arrivée
+    dtC = ...  # temps jusqu'à la prochaine terminaison
+    if(is.na(dtA) & is.na(dtC)) {break;}
+    dt = min(dtA,dtC)
+    # Mettre à jour comme il faut.
+}
+
+```
+
+# Step 1
+
+- 1
+
+`k`

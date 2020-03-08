@@ -1,0 +1,72 @@
+---
+title: "EP_TD1"
+author: "Raphael"
+date: "17/01/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+N=5; 
+lambda=0.7; #jobs
+mu=1;
+Arrival = cumsum(rexp(n=N, rate=lambda));
+Service= rexp(n=N, rate=mu);
+Remaining = rep(N, x=NA);
+Completion = rep(N, x=NA);
+t=0;
+CurrentTask = NA;
+NextArrival = 1; 
+
+while (T){
+  print (t);
+  print (Arrival);
+  print (Service);
+  print (Remaining);
+  print (Completion);
+  
+  dtA= NA;
+  if(length(Arrival[Arrival>t])>0){
+    dtA=head(Arrival[Arrival>t], n=1)-t;
+  }
+   
+  dtC=NA;
+  if(!is.na(CurrentTask)){
+      dtC=Remaining[CurrentTask];
+  }
+  
+  if(is.na(dtA) & is.na(dtC)) {break;}
+    dt = min(dtA,dtC,na.rm=T);
+    
+    # Update the state
+    t=t+dt;
+    
+    # either an arrival
+    if (NextArrival<=N & (Arrival[NextArrival]==t)){
+      Remaining[NextArrival]=Service[NextArrival];
+      NextArrival=NextArrival+1;
+    }
+    
+    # or a completion
+    if (!is.na(CurrentTask)){
+      Remaining[CurrentTask] = Remaining[CurrentTask] - dt;
+      if(Remaining[CurrentTask]<=0){
+        Completion[CurrentTask] = t;
+        Remaining[CurrentTask] = NA;
+        CurrentTask=NA;
+      }
+    }
+    WaitingList = (1:N)[!is.na(Remaining)]
+    if(length(WaitingList)>0){
+      # FIFO
+      CurrentTask=head(WaitingList,n=1);
+    }
+
+  
+}
+print(mean(Completion-Arrival))
+
+#Faire le plot
+```
+
